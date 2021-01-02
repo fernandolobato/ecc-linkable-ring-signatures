@@ -57,7 +57,7 @@ def ring_signature(siging_key, key_idx, M, y, G=SECP256k1.generator, hash_func=h
     s = [0] * n
 
     # STEP 1
-    H = H2(y, hash_func=hash_func)
+    H = H2([y, M], hash_func=hash_func)
     Y =  H * siging_key
 
     # STEP 2
@@ -110,7 +110,7 @@ def verify_ring_signature(message, y, c_0, s, Y, G=SECP256k1.generator, hash_fun
     n = len(y)
     c = [c_0] + [0] * (n - 1)
 
-    H = H2(y, hash_func=hash_func)
+    H = H2([y, message], hash_func=hash_func)
 
     for i in range(n):
         z_1 = (G * s[i]) + (y[i] * c[i])
